@@ -36,6 +36,11 @@ spring:
       max-idle: 10
       max-wait: 3
       max-active: 10
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
 mybatis:
   type-aliases-package: com.shu.miaosha.domain
   configuration:
@@ -43,4 +48,3 @@ mybatis:
     default-fetch-size: 100
     default-statement-timeout: 3000
   mapper-locations: classpath:com.shu.miaosha.dao/*.xml
-

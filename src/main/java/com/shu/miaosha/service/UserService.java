@@ -2,6 +2,8 @@ package com.shu.miaosha.service;
 
 import com.shu.miaosha.dao.UserDao;
 import com.shu.miaosha.domain.User;
+import com.shu.miaosha.result.CodeMsg;
+import com.shu.miaosha.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +22,6 @@ public class UserService {
     public User getById(Integer id) {
         return userDao.getById(id);
     }
+
+
 }
