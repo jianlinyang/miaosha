@@ -1,3 +1,46 @@
 spring:
   thymeleaf:
     cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+  datasource:
+    url: jdbc:mysql://106.14.183.86/miaosha?userUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat
+      max-active: 2
+      initial-size: 1
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-idle: 1
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+  redis:
+    host: 106.14.183.86
+    port: 6379
+    timeout: 3
+    password: 123456
+    pool:
+      max-idle: 10
+      max-wait: 3
+      max-active: 10
+mybatis:
+  type-aliases-package: com.shu.miaosha.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 3000
+  mapper-locations: classpath:com.shu.miaosha.dao/*.xml
+
