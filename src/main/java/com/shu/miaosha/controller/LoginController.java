@@ -9,6 +9,7 @@ import com.shu.miaosha.vo.LoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,19 +40,20 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping("/do_login")
-    public Result doLogin(LoginVO loginVO) {
+    public Result doLogin(@Validated LoginVO loginVO) {
         log.info(loginVO.toString());
-        String password = loginVO.getPassword();
-        String mobile = loginVO.getMobile();
-        if (StringUtils.isEmpty(password)) {
-            return Result.error(CodeMsg.PASSWORD_EMPTY);
-        }
-        if (StringUtils.isEmpty(mobile)) {
-            return Result.error(CodeMsg.MOBILE_EMPTY);
-        }
-        if (!ValidatorUtil.isMobile(mobile)) {
-            return Result.error(CodeMsg.MOBILE_ERROR);
-        }
+        //参数校验
+//        String password = loginVO.getPassword();
+//        String mobile = loginVO.getMobile();
+//        if (StringUtils.isEmpty(password)) {
+//            return Result.error(CodeMsg.PASSWORD_EMPTY);
+//        }
+//        if (StringUtils.isEmpty(mobile)) {
+//            return Result.error(CodeMsg.MOBILE_EMPTY);
+//        }
+//        if (!ValidatorUtil.isMobile(mobile)) {
+//            return Result.error(CodeMsg.MOBILE_ERROR);
+//        }
         //登录
         CodeMsg codeMsg = userService.login(loginVO);
         if (codeMsg.getCode() == 0) {
