@@ -1,6 +1,7 @@
 package com.shu.miaosha.service;
 
 import com.shu.miaosha.dao.GoodsDao;
+import com.shu.miaosha.domain.MiaoshaGoods;
 import com.shu.miaosha.vo.GoodsVo;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,16 @@ public class GoodsService {
 
     public List<GoodsVo> listGoodsVo() {
         return goodsDao.listGoodsVo();
+    }
+
+    public GoodsVo getGoodsVoByGoodsId(long goodId) {
+        return goodsDao.getGoodsVoByGoodsId(goodId);
+    }
+
+    public void reduceStock(GoodsVo goods) {
+        MiaoshaGoods g = new MiaoshaGoods();
+        g.setId(goods.getId());
+        g.setGoodsId(goods.getId());
+        goodsDao.reduceStock(g);
     }
 }

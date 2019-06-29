@@ -34,6 +34,9 @@ public class CodeMsg {
     //订单模块
 
     //秒杀模块
+    public static CodeMsg MIAO_SHA_OVER = new CodeMsg(500500, "商品库存不足");
+    public static CodeMsg REPEATE_MIAO_SHA = new CodeMsg(500500, "不能重复秒杀");
+
     public CodeMsg fillArgs(Object... args) {
         String format = String.format(this.msg, args);
         return new CodeMsg(this.code, format);

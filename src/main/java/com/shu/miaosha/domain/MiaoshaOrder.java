@@ -6,7 +6,7 @@ import lombok.Data;
  * @author yang
  */
 @Data
-public class MarshaOrder {
+public class MiaoshaOrder {
 	private Long id;
 	private Long userId;
 	private Long orderId;

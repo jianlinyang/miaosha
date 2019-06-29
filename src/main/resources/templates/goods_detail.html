@@ -36,16 +36,16 @@
 			<td th:text="${#dates.format(goods.startDate,'yyyy-MM-dd HH:mm:ss')}"></td>
 			<td id="miaoshaTip">
 				<!-- 先取得这个时间 -->
-				<input type="hidden" id="remailSeconds" th:value="${remailSeconds}"></input>
+				<input type="hidden" id="remainSeconds" th:value="${remainSeconds}"/>
 			
-				<span th:if="${status eq 0}">秒杀还未开始，倒计时:<span id="countDown" th:text="${remailSeconds}"></span>秒</span> 
-				<span th:if="${status eq 1}">秒杀正在进行</span> 
-				<span th:if="${status eq 2}">秒杀已经结束</span> 
+				<span th:if="${miaoshaStatus eq 0}">秒杀还未开始，倒计时:<span id="countDown" th:text="${remainSeconds}"></span>秒</span>
+				<span th:if="${miaoshaStatus eq 1}">秒杀正在进行</span>
+				<span th:if="${miaoshaStatus eq 2}">秒杀已经结束</span>
 			</td>
 			<td>
 				<form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">
 					<button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>
-					<input type="hidden" name="goodsId" th:value="${goods.id}"></input>
+					<input type="hidden" name="goodsId" th:value="${goods.id}"/>
 				</form>
 			</td>
 		</tr>
@@ -66,31 +66,30 @@
 	</div>
 	
 </body>
-<script type="text/javascript">
+<script>
 	$(function(){
 		countDown();
 	});
 	function countDown(){
-		//获取秒杀倒计时进行判断，0-->正在进行秒杀,-1-->秒杀结束,remailSeconds>0-->代表倒计时
-		var remailSeconds=$("#remailSeconds").val();
-		//alert("remailSeconds:"+remailSeconds);
+		//获取秒杀倒计时进行判断，0&ndash;&gt;正在进行秒杀,-1&ndash;&gt;秒杀结束,remailSeconds>0-->代表倒计时
+		var remainSeconds=$("#remainSeconds").val();
 		var timeout;
-		
-		if(remailSeconds>0){//秒杀还没有开始，进行倒计时功能
+
+		if(remainSeconds>0){//秒杀还没有开始，进行倒计时功能
 			$("#buyButton").attr("disabled",true);
 			//倒计时
 			timeout=setTimeout(function(){
-				$("#countDown").text(remailSeconds-1);
-				$("#remailSeconds").val(remailSeconds-1);//remailSeconds这是input
+				$("#countDown").text(remainSeconds-1);
+				$("#remainSeconds").val(remainSeconds-1);//remailSeconds这是input
 				countDown();
 			},1000);//一秒钟之后回调函数
-			
-		}else if(remailSeconds==0){//正在进行秒杀
+
+		}else if(remainSeconds==0){//正在进行秒杀
 			$("#buyButton").attr("disabled",false);
 			if(timeout){//如果timeout有值的情况
 				clearTimeout(timeout);
 			}
-			//将文案修改 df1fab4272a24cdf9432adb9fd69cb38
+			//将文案修改
 			$("#miaoshaTip").html("秒杀进行中");
 		}else{
 			//小于0的情况，秒杀结束，将秒杀按钮设置为不可点击
