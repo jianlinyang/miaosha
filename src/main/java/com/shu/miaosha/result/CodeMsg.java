@@ -19,6 +19,7 @@ public class CodeMsg {
     //通用异常
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
+    public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常: %s");
 
     //登录模块
     public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "SESSION不存在或者已失效");
@@ -33,4 +34,8 @@ public class CodeMsg {
     //订单模块
 
     //秒杀模块
+    public CodeMsg fillArgs(Object... args) {
+        String format = String.format(this.msg, args);
+        return new CodeMsg(this.code, format);
+    }
 }

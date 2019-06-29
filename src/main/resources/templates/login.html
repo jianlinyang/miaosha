@@ -81,9 +81,10 @@
             success: function (data) {
                 layer.closeAll();
                 if(data.code==0){
-                    layer.msg("登录成功")
+                    layer.msg("登录成功");
+                    window.location.href="/goods/to_list"
                 }else {
-                    layer.msg(data.msg())
+                    layer.msg(data.msg)
                 }
             },
             error: function () {
