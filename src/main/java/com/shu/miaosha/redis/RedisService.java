@@ -20,10 +20,11 @@ public class RedisService {
 
     /**
      * 获取单个对象
+     *
      * @param prefix 前缀
-     * @param key key
-     * @param clazz 类型
-     * @param <T> T
+     * @param key    key
+     * @param clazz  类型
+     * @param <T>    T
      * @return T
      */
     public <T> T get(KeyPrefix prefix, String key, Class<T> clazz) {
@@ -133,6 +134,18 @@ public class RedisService {
     private void returnToPool(Jedis jedis) {
         if (jedis != null) {
             jedis.close();
+        }
+    }
+
+    public boolean delete(KeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String realKey = prefix.getPrefix() + key;
+            Long del = jedis.del(key);
+            return del > 0;
+        } finally {
+            returnToPool(jedis);
         }
     }
 }

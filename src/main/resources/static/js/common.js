@@ -4,3 +4,12 @@ function g_showLoading() {
 }
 
 var g_password_salt = "1a2b3c4d";
+
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}

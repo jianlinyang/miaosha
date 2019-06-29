@@ -15,11 +15,11 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       filters: stat
-      max-active: 1000
-      initial-size: 100
-      max-wait: 60000
+      max-active: 100
+      initial-size: 2
+      max-wait: 80
       time-between-eviction-runs-millis: 60000
-      min-idle: 500
+      min-idle: 50
       min-evictable-idle-time-millis: 300000
       validation-query: select 'x'
       test-while-idle: true
