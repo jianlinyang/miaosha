@@ -1,6 +1,7 @@
 package com.shu.miaosha.controller;
 
 import com.shu.miaosha.domain.User;
+import com.shu.miaosha.rabbitmq.MQSender;
 import com.shu.miaosha.redis.RedisService;
 import com.shu.miaosha.redis.UserKey;
 import com.shu.miaosha.result.Result;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SampleController {
     private final UserService userService;
     private final RedisService redisService;
+    private final MQSender mqSender;
 
-    public SampleController(UserService userService, RedisService redisService) {
+    public SampleController(UserService userService, RedisService redisService, MQSender mqSender) {
         this.userService = userService;
         this.redisService = redisService;
+        this.mqSender = mqSender;
     }
 
     @ResponseBody
@@ -38,5 +41,12 @@ public class SampleController {
         redisService.set(UserKey.getById, String.valueOf(user.getId()), user);
         User v1 = redisService.get(UserKey.getById, String.valueOf(user.getId()), User.class);
         return Result.success(v1);
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq")
+    public Result<String> mq() {
+        mqSender.send("hello");
+        return Result.success("mq");
     }
 }

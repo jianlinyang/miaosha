@@ -4,6 +4,8 @@ import com.shu.miaosha.dao.OrderDao;
 import com.shu.miaosha.domain.MiaoshaOrder;
 import com.shu.miaosha.domain.MiaoshaUser;
 import com.shu.miaosha.domain.OrderInfo;
+import com.shu.miaosha.redis.OrderKey;
+import com.shu.miaosha.redis.RedisService;
 import com.shu.miaosha.vo.GoodsVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +19,15 @@ import java.util.Date;
 @Service
 public class OrderService {
     private final OrderDao orderDao;
+    private final RedisService redisService;
 
-    public OrderService(OrderDao orderDao) {
+    public OrderService(OrderDao orderDao, RedisService redisService) {
         this.orderDao = orderDao;
+        this.redisService = redisService;
     }
 
     public MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(Long id, long goodsId) {
-        return orderDao.getMiaoshaOrderByUserIdGoodsId(id, goodsId);
+        return redisService.get(OrderKey.getMiaoshaOrderByUidGid, "" + id + "_" + goodsId, MiaoshaOrder.class);
     }
 
     @Transactional
@@ -44,6 +48,11 @@ public class OrderService {
         miaoshaOrder.setOrderId(orderId);
         miaoshaOrder.setUserId(user.getId());
         orderDao.insertMiaoshaOrder(miaoshaOrder);
+        redisService.set(OrderKey.getMiaoshaOrderByUidGid, "" + user.getId() + "_" + goods.getId(), MiaoshaOrder.class);
         return orderInfo;
+    }
+
+    public OrderInfo getOrderById(long orderId) {
+        return orderDao.getOrderById(orderId);
     }
 }

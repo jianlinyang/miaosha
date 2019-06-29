@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CodeMsg {
+    public static CodeMsg ACCESS_LIMIT = new CodeMsg(0, "访问受限");
     private Integer code;
     private String msg;
     //通用异常
@@ -32,6 +33,7 @@ public class CodeMsg {
     //商品模块
 
     //订单模块
+    public static CodeMsg ORDER_NOT_EXIST = new CodeMsg(500400, "订单不存在");
 
     //秒杀模块
     public static CodeMsg MIAO_SHA_OVER = new CodeMsg(500500, "商品库存不足");
