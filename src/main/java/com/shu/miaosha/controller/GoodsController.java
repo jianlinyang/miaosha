@@ -105,7 +105,7 @@ public class GoodsController {
         return html;
     }
 
-    @RequestMapping(value = "/to_detail/{goodsId}")
+    @RequestMapping(value = "/detail/{goodsId}")
     @ResponseBody
     public Result<GoodsDetailVo> detail(HttpServletRequest request, HttpServletResponse response, Model model, MiaoshaUser user,
                                         @PathVariable("goodsId") long goodId) {
@@ -128,8 +128,8 @@ public class GoodsController {
             miaoshaStatus = 1;
             remainSeconds = 0;
         }
-        goodsDetailVo.setGoodsVo(goods);
-        goodsDetailVo.setMiaoshaUser(user);
+        goodsDetailVo.setGoods(goods);
+        goodsDetailVo.setUser(user);
         goodsDetailVo.setRemainSeconds(remainSeconds);
         goodsDetailVo.setMiaoshaStatus(miaoshaStatus);
 

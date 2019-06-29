@@ -17,7 +17,7 @@
     <div class="panel-body">
         <span id="userTip">您还没有登录，请登录后再操作</span>
         <span>没有收货地址的提示。。。</span>
-        <input type="hidden" id="goodsId">  <!-- $("#goodsId").val(goods.id); -->
+        <!--        <input type="hidden" id="goodsId">  &lt;!&ndash; $("#goodsId").val(goods.id); &ndash;&gt;-->
     </div>
     <table class="table" id="goodslist">
         <tr>
@@ -26,28 +26,30 @@
         </tr>
         <tr>
             <td>商品图片</td>
-            <td colspan="3"><img id="goodsImg" width="80" height="60"></img></td>
+            <td colspan="3"><img id="goodsImg" width="80" height="60"/></td>
         </tr>
         <tr>
             <td>秒杀开始时间</td>
             <td id="startTime"></td>
             <td>
                 <!-- 先取得这个时间 -->
-                <input type="hidden" id="remainSeconds"></input>
+                <input type="hidden" id="remainSeconds"/>
                 <span id="miaoshaTip"></span>
             </td>
             <td>
-                <form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">
-                    <button class="btn-block btn btn-primary" type="submit" id="buyButton">立即秒杀</button>
-                    <input type="hidden" name="goodsId" id="goodsId"/>
-                </form>
-                <!--				<div class="row">-->
-                <!--					<div class="form-inline">-->
-                <!--						<img id="vertifyCodeImg" width="80" height="30" style="display:none" onclick="refreshVCode()"></img>&lt;!&ndash; 验证码图片 &ndash;&gt;-->
-                <!--						<input id="vertifyCode" class="form-control" style="display:none"></input>-->
-                <!--						<button class="btn btn-primary" type="button" id="buyButton" onclick="getMiaoshaPath()">立即秒杀</button>-->
-                <!--					</div>-->
-                <!--				</div>-->
+                <!--                <form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">-->
+                <!--                    <button class="btn-block btn btn-primary" type="submit" id="buyButton">立即秒杀</button>-->
+                <!--                    <input type="hidden" name="goodsId" id="goodsId"/>-->
+                <!--                </form>-->
+                <div class="row">
+                    <div class="form-inline">
+                        <img id="vertifyCodeImg" width="80" height="30" style="display:none"
+                             onclick="refreshVCode()"></img><!-- 验证码图片 -->
+                        <input id="vertifyCode" class="form-control" style="display:none"></input>
+                        <button class="btn btn-primary" type="button" id="buyButton" onclick="getMiaoshaPath()">立即秒杀
+                        </button>
+                    </div>
+                </div>
             </td>
         </tr>
         <tr>
@@ -172,8 +174,8 @@
     //渲染页面--------5-17
     function render(detail) {
         //alert(detail.status);
-        var miaoshaStatus = detail.status;
-        var remailSeconds = detail.remailSeconds;
+        var miaoshaStatus = detail.miaoshaStatus;
+        var remainSeconds = detail.remainSeconds;
         var goods = detail.goods;
         var user = detail.user;
         if (user != null) {
@@ -189,6 +191,24 @@
         $("#miaoshaPrice").text(goods.miaoshaPrice);
         $("#stockCount").text(goods.goodsStock);
         countDown();
+    }
+
+    Date.prototype.format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
     }
 
     function getDetail() {
@@ -217,22 +237,30 @@
         $("#vertifyCodeImg").attr("src", "/miaosha/vertifyCode?goodsId=" + $("#goodsId").val() + "&timestamp=" + new Date().getTime());
     }
 
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
     function countDown() {
         //获取秒杀倒计时进行判断，0-->正在进行秒杀,-1-->秒杀结束,remailSeconds>0-->代表倒计时
-        var remailSeconds = $("#remailSeconds").val();
-        //alert("remailSeconds:"+remailSeconds);
+        var remainSeconds = $("#remainSeconds").val();
         var timeout;
 
-        if (remailSeconds > 0) {//秒杀还没有开始，进行倒计时功能
+        if (remainSeconds > 0) {//秒杀还没有开始，进行倒计时功能
             $("#buyButton").attr("disabled", true);
-            $("#miaoshaTip").html("秒杀倒计时：" + remailSeconds + "秒");
+            $("#miaoshaTip").html("秒杀倒计时：" + remainSeconds + "秒");
             //倒计时
             timeout = setTimeout(function () {
-                $("#countDown").text(remailSeconds - 1);
-                $("#remailSeconds").val(remailSeconds - 1);//remailSeconds这是input
+                $("#countDown").text(remainSeconds - 1);
+                $("#remainSeconds").val(remainSeconds - 1);//remailSeconds这是input
                 countDown();
             }, 1000);//一秒钟之后回调函数
-        } else if (remailSeconds == 0) {//正在进行秒杀
+        } else if (remainSeconds == 0) {//正在进行秒杀
             $("#buyButton").attr("disabled", false);
             if (timeout) {//如果timeout有值的情况
                 clearTimeout(timeout);

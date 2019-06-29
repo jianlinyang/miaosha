@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class GoodsDetailVo {
-    private int miaoshaStatus = 0;
-    private int remainSeconds = 0;
-    private GoodsVo goodsVo;
-    private MiaoshaUser miaoshaUser;
+    private int miaoshaStatus ;
+    private int remainSeconds ;
+    private GoodsVo goods;
+    private MiaoshaUser user;
 }
