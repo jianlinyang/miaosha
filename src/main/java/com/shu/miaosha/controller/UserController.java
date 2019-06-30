@@ -8,9 +8,9 @@ import com.shu.miaosha.service.MiaoshaUserService;
 import com.shu.miaosha.utils.MD5Util;
 import com.shu.miaosha.vo.LoginVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,24 +37,18 @@ public class UserController {
 
     @PostMapping("/do_register")
     @ResponseBody
-    public Result<Boolean> doRegister(@RequestParam(name = "mobile") Long mobile,
-                                      @RequestParam(name = "username") String username,
-                                      @RequestParam(name = "password") String password,
-                                      HttpServletResponse response) {
-        MiaoshaUser byId = userService.getById(mobile);
+    public Result<Boolean> doRegister(HttpServletResponse response, @Validated LoginVO loginVO) {
+        MiaoshaUser byId = userService.getById(Long.valueOf(loginVO.getMobile()));
         if (byId != null) {
             return Result.error(CodeMsg.USER_EXIST);
         }
         MiaoshaUser miaoshaUser = new MiaoshaUser();
-        miaoshaUser.setNickname(username);
+        miaoshaUser.setNickname(loginVO.getMobile());
         miaoshaUser.setSalt("1a2b3c4d");
-        miaoshaUser.setId(mobile);
-        miaoshaUser.setPassword(MD5Util.inputPassToDbPass(password, miaoshaUser.getSalt()));
+        miaoshaUser.setId(Long.valueOf(loginVO.getMobile()));
+        miaoshaUser.setPassword(MD5Util.formPassDbPass(loginVO.getPassword(),miaoshaUser.getSalt()));
         miaoshaUser.setRegisterDate(new Date());
         userService.insert(miaoshaUser);
-        LoginVO loginVO = new LoginVO();
-        loginVO.setMobile(String.valueOf(miaoshaUser.getId()));
-        loginVO.setPassword(MD5Util.inputPassFormPass(password));
         userService.login(response, loginVO);
         return Result.success(true);
     }
