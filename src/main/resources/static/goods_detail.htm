@@ -44,12 +44,13 @@
                 <div class="row">
                     <div class="form-inline">
                         <img id="vertifyCodeImg" width="80" height="30" style="display:none"
-                             onclick="refreshVCode()"></img><!-- 验证码图片 -->
-                        <input id="vertifyCode" class="form-control" style="display:none"></input>
+                             onclick="refreshVCode()"/><!-- 验证码图片 -->
+                        <input id="vertifyCode" class="form-control" style="display:none"/>
                         <button class="btn btn-primary" type="button" id="buyButton" onclick="getMiaoshaPath()">立即秒杀
                         </button>
                     </div>
                 </div>
+                <input type="hidden" name="goodsId" id="goodsId"/>
             </td>
         </tr>
         <tr>
@@ -118,7 +119,7 @@
                         //继续轮询
                         setTimeout(function () {
                             getMiaoshaResult(goodsId);
-                        }, 50);//50ms之后继续轮询
+                        }, 200);//200ms之后继续轮询
                         layer.msg(data.msg);
                     } else {
                         layer.confirm("恭喜你，秒杀成功!查看订单?", {
@@ -213,7 +214,6 @@
 
     function getDetail() {
         var goodsId = getQueryString("goodsId");
-        //alert(goodsId);
         $.ajax({
             url: "/goods/detail/" + goodsId,
             type: "GET",

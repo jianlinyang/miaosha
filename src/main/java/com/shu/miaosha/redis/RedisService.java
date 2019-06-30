@@ -102,7 +102,7 @@ public class RedisService {
         }
     }
 
-    public <T> boolean exist(KeyPrefix prefix, String key, T value) {
+    public <T> boolean exist(KeyPrefix prefix, String key) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
