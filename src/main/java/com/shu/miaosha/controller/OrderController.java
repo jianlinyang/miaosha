@@ -2,16 +2,14 @@ package com.shu.miaosha.controller;
 
 import com.shu.miaosha.domain.MiaoshaUser;
 import com.shu.miaosha.domain.OrderInfo;
-import com.shu.miaosha.redis.RedisService;
 import com.shu.miaosha.result.CodeMsg;
 import com.shu.miaosha.result.Result;
 import com.shu.miaosha.service.GoodsService;
-import com.shu.miaosha.service.MiaoshaUserService;
 import com.shu.miaosha.service.OrderService;
 import com.shu.miaosha.vo.GoodsVo;
 import com.shu.miaosha.vo.OrderDetailVo;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,21 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/order")
 @Controller
 public class OrderController {
-    private final MiaoshaUserService userService;
-    private final RedisService redisService;
     private final OrderService orderService;
     private final GoodsService goodsService;
 
-    public OrderController(MiaoshaUserService userService, RedisService redisService, OrderService orderService, GoodsService goodsService) {
-        this.userService = userService;
-        this.redisService = redisService;
+    public OrderController(OrderService orderService, GoodsService goodsService) {
         this.orderService = orderService;
         this.goodsService = goodsService;
     }
 
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     @ResponseBody
-    public Result<OrderDetailVo> info(Model model, MiaoshaUser user, @RequestParam("orderId") long orderId) {
+    public Result<OrderDetailVo> info(MiaoshaUser user, @RequestParam("orderId") long orderId) {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }

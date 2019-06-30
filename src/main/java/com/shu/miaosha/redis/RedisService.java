@@ -1,6 +1,7 @@
 package com.shu.miaosha.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -42,17 +43,18 @@ public class RedisService {
     }
 
     public static <T> T stringToBean(String s, Class<T> clazz) {
-        if (StringUtils.isEmpty(s)) {
+        if (s == null || s.length() == 0 || clazz == null) {
             return null;
         }
         if (clazz == int.class || clazz == Integer.class) {
-            return (T) Integer.valueOf(s);
+            return ((T) Integer.valueOf(s));
         } else if (clazz == String.class) {
             return (T) s;
         } else if (clazz == long.class || clazz == Long.class) {
             return (T) Long.valueOf(s);
         } else {
-            return JSON.toJavaObject(JSON.parseObject(s), clazz);
+            JSONObject json = JSON.parseObject(s);
+            return JSON.toJavaObject(json, clazz);
         }
     }
 

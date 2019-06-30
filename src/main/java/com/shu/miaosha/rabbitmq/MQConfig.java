@@ -17,4 +17,9 @@ public class MQConfig {
     public Queue queue(){
         return new Queue(QUEUE,true);
     }
+    @Bean
+    public Queue miaoshaqueue() {
+        //名称，是否持久化
+        return new Queue(MIAOSHA_QUEUE,true);
+    }
 }

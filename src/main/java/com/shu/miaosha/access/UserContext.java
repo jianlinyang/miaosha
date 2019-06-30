@@ -7,7 +7,7 @@ import com.shu.miaosha.domain.MiaoshaUser;
  * @date 2019/6/29 23:59
  */
 public class UserContext {
-	private static ThreadLocal<MiaoshaUser> userHolder=new ThreadLocal<MiaoshaUser>();
+	private static ThreadLocal<MiaoshaUser> userHolder=new ThreadLocal<>();
 	
 	public static void setUser(MiaoshaUser user) {
 		userHolder.set(user);
