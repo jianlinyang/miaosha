@@ -106,4 +106,9 @@ public class MiaoshaUserService {
         cookie.setPath("/");
         response.addCookie(cookie);
     }
+
+    public boolean insert(MiaoshaUser miaoshaUser) {
+        return miaoshaUserDao.insert(miaoshaUser);
+    }
+
 }

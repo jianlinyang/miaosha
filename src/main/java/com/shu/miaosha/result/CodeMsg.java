@@ -30,6 +30,7 @@ public class CodeMsg {
     public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500214, "手机号不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
     public static CodeMsg ACCESS_LIMIT = new CodeMsg(500216, "访问受限");
+    public static CodeMsg USER_EXIST = new CodeMsg(500217, "用户名已存在");
 
 
     //商品模块

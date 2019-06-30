@@ -25,7 +25,6 @@ import java.util.Random;
 public class MiaoshaService {
     private final GoodsService goodsService;
     private final OrderService orderService;
-
     private final RedisService redisService;
 
     public MiaoshaService(GoodsService goodsService, OrderService orderService, RedisService redisService) {

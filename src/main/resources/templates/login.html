@@ -47,14 +47,20 @@
         </div>
     </div>
     <div class="row">
+<!--        <div class="col-md-5">-->
+<!--            <button class="btn btn-primary btn-block" type="submit" onclick="reset()">重置</button>-->
+<!--        </div>-->
         <div class="col-md-5">
-            <button class="btn btn-primary btn-block" type="reset" onclick="reset()">重置</button>
+<!--            <a class="btn-primary btn btn-block" href="/register">注册</a>-->
+            <button class="btn btn-primary btn-block" type="submit" onclick="register()">注册</button>
         </div>
         <div class="col-md-5">
             <button class="btn btn-primary btn-block" type="submit" onclick="login()">登录</button>
         </div>
+
     </div>
 </form>
+
 </body>
 <script>
     function login() {
@@ -64,7 +70,40 @@
             }
         })
     }
-
+    function register() {
+        $("#loginForm").validate({
+            submitHandler: function (form) {
+                doRegister();
+            }
+        })
+    }
+    function doRegister() {
+        g_showLoading();
+        var inputPass = $("#password").val();
+        var salt = g_password_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
+        var password = md5(str);
+        $.ajax({
+            url: "/login/do_login",
+            type: "POST",
+            data: {
+                mobile: $("#mobile").val(),
+                password: password
+            },
+            success: function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("登录成功");
+                    window.location.href="/goods/to_list"
+                }else {
+                    layer.msg(data.msg)
+                }
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        })
+    }
     function doLogin() {
         g_showLoading();
         var inputPass = $("#password").val();

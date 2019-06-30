@@ -101,9 +101,13 @@
             //token如果cookie里面有，会自己带过去
         });
     }
-
+    function g_showLoading() {
+        var idx = layer.msg('处理中...', {icon: 16, shade: [0.5, '#f5f5f5'], scrollbar: false, offset: 'Opx', time: 100000});
+        return idx;
+    }
     //做轮询
     function getMiaoshaResult(goodsId) {
+        g_showLoading();
         $.ajax({
             url: "/miaosha/result",
             type: "GET",
@@ -126,8 +130,7 @@
                             btn: ["确定", "取消"]
                         }, function () {
                             //秒杀成功，跳转详情页面
-                            window.location.href = "order_detail.htm?orderId="
-                                + goodsId;
+                            window.location.href = "order_detail.htm?orderId=" + result;
                         }, function () {
                             layer.closeAll();
                         });
@@ -157,7 +160,7 @@
             success: function (data) {
                 if (data.code == 0) {
                     //秒杀成功，跳转详情页面
-                    // window.location.href="order_detail.htm?orderId="+data.data.goodsId;
+                    // window.location.href="order_detail.htm?orderId="+data.data.id;
                     //轮询
                     getMiaoshaResult($("#goodsId").val());
                 } else {

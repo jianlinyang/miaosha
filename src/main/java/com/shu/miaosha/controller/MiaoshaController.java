@@ -139,7 +139,7 @@ public class MiaoshaController implements InitializingBean {
 
     @PostMapping("/{path}/do_miaosha")
     @ResponseBody
-    public Result<Integer> list(Model model, MiaoshaUser user,
+    public Result<Integer> list(MiaoshaUser user,
                                 @RequestParam("goodsId") long goodsId,
                                 @PathVariable("path") String path) {
         if (user == null) {

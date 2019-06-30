@@ -1,10 +1,7 @@
 package com.shu.miaosha.dao;
 
 import com.shu.miaosha.domain.MiaoshaUser;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 /**
  * @author yang
@@ -17,4 +14,8 @@ public interface MiaoshaUserDao {
 
     @Update("update miaosha_user set password = #{password} where id = #{id}")
     void update(MiaoshaUser toBeUpdate);
+
+    @Insert("insert into miaosha_user (login_count,nickname,register_date,salt,password,id,head) values " +
+            "(#{loginCount},#{nickname},#{registerDate},#{salt},#{password},#{id},#{head})")
+    boolean insert(MiaoshaUser miaoshaUser);
 }
