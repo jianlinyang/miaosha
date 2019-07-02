@@ -4,7 +4,9 @@ import com.shu.miaosha.result.CodeMsg;
 import com.shu.miaosha.result.Result;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
  * @author yang
  * @date 2019/6/29 8:43
  */
-//@ControllerAdvice
-//@ResponseBody
+@ControllerAdvice
+@ResponseBody
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result<String> exceptionHandler(HttpServletRequest request, Exception e) {

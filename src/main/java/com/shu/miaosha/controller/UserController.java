@@ -30,9 +30,9 @@ public class UserController {
         this.redisService = redisService;
     }
 
-    @RequestMapping("/register")
+    @RequestMapping("/")
     public String register() {
-        return "to_register";
+        return "login";
     }
 
     @PostMapping("/do_register")
